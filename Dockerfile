@@ -26,9 +26,11 @@ RUN apt-get update && \
 wget https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda_11.1.1_455.32.00_linux.run
 sh cuda_11.1.1_455.32.00_linux.run
 
-RUN conda install cudnn \
-				  nccl \
-				  -y
+# We have to manually download cuDNN 8, since the Conda version is 7.6.5, which is not compatible with CUDA 11
+pip install gdown
+gdown https://drive.google.com/uc?id=1heN3ax-Y5RxhDUKwH72PABxKLgBt7IT2
+
+RUN conda install nccl -y
 
 # 3) install packages
 RUN pip install --no-cache-dir networkx scipy python-louvain
